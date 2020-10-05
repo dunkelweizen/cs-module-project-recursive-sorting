@@ -1,46 +1,34 @@
 # TO-DO: complete the helper function below to merge 2 sorted arrays
 def merge(arrA, arrB):
-    elements = len(arrA) + len(arrB)
-    merged_arr = [0] * elements
 
-    if elements == len(arrA):
-        return arrA
-    if elements == len(arrB):
-        return arrB
+    arrC = []
+    while len(arrA) > 0 and len(arrB) > 0:
+        if arrA[0] > arrB[0]:
+            arrC.append(arrB.pop(0))
+        else:
+            arrC.append(arrA.pop(0))
+    while len(arrA) > 0:
+        arrC.append(arrA.pop(0))
+    while len(arrB) > 0:
+        arrC.append(arrB.pop(0))
+    return arrC
 
-    pointerA = 0
-    pointerB = 0
-    merge_pointer = 0
-    while pointerA < len(arrA) and pointerB < len(arrB):
-        if arrA[pointerA] < arrB[pointerB]:
-            merged_arr[merge_pointer] = arrA[pointerA]
-            pointerA += 1
-            merge_pointer += 1
-        if arrA[pointerA] > arrB[pointerB]:
-            merged_arr[merge_pointer] = arrB[pointerB]
-            pointerB += 1
-            merge_pointer += 1
-
-    if pointerA != len(arrA) - 1:
-        for element in arrA[pointerA:]:
-            merged_arr[merge_pointer] = element
-            merge_pointer += 1
-    elif pointerB != len(arrB) - 1:
-        for element in arrB[pointerB:]:
-            merged_arr[merge_pointer] = element
-            merge_pointer += 1
-
-    return merged_arr
 
 # TO-DO: implement the Merge Sort function below recursively
 def merge_sort(arr):
     # call recursively to split arr in half until all split arrays are <= len(1)
     #then take each pair of arrays as the recursion calls unwind and merge them in sorted order
+    #pseudocode
     if len(arr) <= 1:
         return arr
-    else:
-        merge_sort(arr[:(len(arr) // 2)])
-        merge_sort(arr[(len(arr) // 2):])
+    arr1 = [x for x in arr[:len(arr)//2]]
+    arr2 = [x for x in arr[len(arr)//2:]]
+
+    arr1 = merge_sort(arr1)
+    arr2 = merge_sort(arr2)
+
+    return merge(arr1, arr2)
+
 
 
 # STRETCH: implement the recursive logic for merge sort in a way that doesn't 
